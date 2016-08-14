@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+	function log() {
+		console.log(arguments[0]);
+	}
+
+	// var time1 = new Date();
+
+	// for(var i = 0; i<100000; i++){
+	// 	//函数声明
+	// 	var test3 = function(){;};
+	// 	//构造函数
+	// 	// test2 = new Function();
+	// }
+	// var time2 = new Date();
+	// alert(time2.getTime()-time1.getTime());
+	 // log(m.prototype)
+	 // log(mm)
+
+	// //执行顺序 4 2 3 3 5 6
+	//  function f(){ return 1;}
+	//  log(f());
+	//  var f = new Function('return 2;');
+	//  log(f());
+	//  var f = function f(){ return 3;};
+	//  log(f());
+	//  function f(){ return 4;}
+	//  log(f());
+	//  var f = new Function('return 5;');
+	//  log(f());
+	//  var f = function f(){ return 6;};
+	//  log(f());
+
+	//作用域
+	var k = 1;
+	function test(){
+		var k =2;
+		function test1(){ alert(k);}
+		var test2 = function(){ alert(k); };
+		var test3 = new Function('alert(k);');
+		test1();
+		test2();
+		test3();
+	}
+	test();//2 2 1
+	</script>
+<body>
+
+</html>
