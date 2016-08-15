@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	//call,apply改变函数的作用域，在某些特定作用域中调用函数，可以用来传递参数
+	//apply与call一样，只是参数接收的是数组
+
+	//传递参数，调用其他函数
+	function sum(a,b){ return a+b; }
+
+	function test(a,b){ return sum.call(this,a,b); }
+
+	alert(test(1,2))   //3 
+
+	//如果仅仅是如此，直接用函数名调用就可以，实际上还可以改变作用域
+	var x = -1;
+	var point = {
+		x : 0,
+		y : 0,
+		setPos : function(x,y){
+			this.x = x;
+			this.y = y;
+		}
+	};
+
+	point.setPos(3,4);
+
+	function getX(){
+		return this.x;
+	}
+
+	alert(getX.call(this));   //-1  作用域为this指向的window
+	alert(getX.call(point));  //3   作用域为point
+
+	
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>

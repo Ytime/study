@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	//闭包指一个函数能访问另外一个函数作用域的变量
+	//具有封闭性
+	
+	//利用函数内部的下级作用域作为返回值，保持对上层函数作用域的引用
+
+	//1级作用域
+	function ToName(name) {
+		//2级 ToName函数作用域
+		var sName = name;
+		return function(str){
+			//3级 匿名函数作用域
+			alert(sName + ','+str);   //引用ToName的变量
+		}
+	}
+
+	var say = ToName('Jian');
+	say('hello!');                   //Jian,hello! say函数能直接访问到ToName的变量
+
+
+
+
+	
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>

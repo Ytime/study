@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	//this对象有运行时的环境决定,this总是指向调用者
+	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
+
+
+	//1.函数中调用，绑定全局对象
+	var a = 10;
+
+	function test(){
+		alert(this.a);   //10  this指向全局对象window
+		this.k = 20;
+	}
+
+	test();
+	alert(test.k)  //unfefined
+
+	//
+	function outside(){
+		function inside(){
+			return this;
+		};
+		return inside();
+	}
+	alert(outside() === window)   //true
+
+
+	//2.对象的方法中，绑定到对象
+	var point = {
+		x : 0,
+		y : 0,
+		setPos : function(x,y){
+			this.x = x;
+			this.y = y;
+		}
+	};
+
+	point.setPos(3,4);
+	alert('('+point.x+','+point.y+')' );  //(3,4), this指向point
+
+	//3.方法内部函数，指向全局对象
+	var point = {
+		x : 0,
+		y : 0,
+		setPos : function(x,y){
+			that = this;   //用that保存对point的引用
+			var setX = function(x){
+				that.x = x;
+				alert(this===that);  //false 
+			};
+			var setY = function(y){
+				that.y = y;
+				alert(this.point.x)  //6 this指向window
+			};
+			setX(x);setY(y);
+		}
+	};
+	point.setPos(6,8);
+	
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>

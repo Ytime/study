@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	/*
+	*模拟面向对象，创建对象方法
+	*工厂模式
+	*构造函数
+	*/
+	
+	
+
+	//工厂模式
+	function createPoint(x,y) {
+		var obj = {};
+		obj.x = x;
+		obj.y = y;
+		obj.showPos = function(){
+			alert('(' + obj.x + ',' + obj.y + ')');
+		};
+		return obj;
+	}
+
+	var point1 = createPoint(1,2);
+	var point2 = createPoint(3,4);
+	//point1.showPos();          //(1,2)
+	//point2.showPos();		   //(3,4)
+	alert(point1.constructor === Object);   //true 工厂模式是Object作为构造函数
+	alert(point1 instanceof Object);        //true
+
+	//构造函数,相当于类的模板，用new实例化
+	function Point(x,y){
+		this.x = x;
+		this.y = y;
+		this.showPos = function(){
+			alert('(' + this.x + ',' + this.y + ')');
+		};
+	}
+
+	var pointA = new Point(1,2);
+	var pointB = new Point(3,4);
+	pointA.showPos();          //(1,2)
+	pointB.showPos();		   //(3,4)
+	alert( pointA.constructor === Point ); //true 
+	alert(pointA instanceof Point);        //true 
+	alert(pointA instanceof Object);       //true 
+ 
+
+
+
+
+	
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>
