@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	/*
+	*prototype：所有函数、对象都有一个prototype属性，该属性指向一个对象，该对象保存共享的属性和方法
+	* 对象实例也有保存对prototype对象的引用在内部属性
+	*访问实例的属性和方法，优先搜索实例对象的属性和方法，再搜索prototype的属性方法
+	*
+	*/
+
+	//构造函数方法创建对象存在一个问题，所有对象实例的方法都是独立,效率低。虽然可以绑定全局函数，但是全局函数过多，不易管理，而且不符合OOP的思想
+	function Point(x,y){
+		this.x = x;
+		this.y = y;
+		this.showPos = function(){
+			alert('(' + this.x + ',' + this.y + ')');
+		};
+	}
+
+	var pointA = new Point(1,2);
+	var pointB = new Point(3,4);
+	//alert(pointA.showPos == pointB.showPos);  //false
+
+	//使用原型定义
+	function Point(x,y){
+		this.x = x;
+		this.y = y;
+	}
+	Point.prototype.showPos = function(){
+			alert('(' + this.x + ',' + this.y + ')');
+		};
+	var pointA = new Point(1,2);
+	var pointB = new Point(3,4); 
+	pointA.showPos();                   //(1,2)
+	pointB.showPos();					//(3,4)
+	alert(pointA.showPos == pointB.showPos);  //true   方法共享
+
+
+	/*
+	*原型和构造函数、实例关系:
+	constructor.prototype -> prototype object   构造函数的prototype属性指向原型对象
+	prototype.constructor -> consctructor       原型对象的constructor属性指向构造函数
+	instance[[Prototype]] -> prototype object   实例的内部属性也指向原型对象
+	*/
+	var obj = Point.prototype;
+	alert(Point === obj.constructor);  //true 
+	alert(obj.isPrototypeOf(pointA));  //true
+	alert(Object.getPrototypeOf(pointA) === obj) //true ECMAScript5  新属性
+
+
+	/*
+	原型的动态性
+	动态修改原型之后，修改结果能直接在实例中体现出来
+	*/
+	alert(pointA.z);           //undefined
+	Point.prototype.z = 0;
+	alert(pointA.z);           //0  
+
+
+	/*
+	用字面量对象给prototype对象赋值更方便，但会覆盖掉原来的prototype对象，并且改变prototype对象的constructor属性,需要重新指定
+	*/
+	Point.prototype = {
+		moveBy : function(x,y){
+			this.x += x;
+			this.y += y;
+		},
+		showPos1 : function(){
+			alert('(' + this.x + ',' + this.y + ')');
+		}
+	}
+	var pointC = new Point(5,6);
+	var newObj = Point.prototype;
+	pointC.moveBy(1,2);
+	pointC.showPos1();                  //(6,8)
+	alert(Point === newObj.constructor);  //false 
+	alert(Object === newObj.constructor);  //true 
+	alert(pointA.moveBy)                   //undefine     改变prototype后对之前的实例没影响
+	pointA.showPos()                 		//(1,2)       依然指向上一个prototype
+	alert(pointC.showPos)                   //undefine 
+
+
+	//prototype拓展原生对象方法
+	//ECMA5 forEach
+	var arr = [1,2,3,4,'5'];
+	arr.forEach(function(item){
+		alert(item);  //1,2,3,4
+	});
+	
+
+
+	//使用prototype拓展
+	Array.prototype.each = function(fn){
+		var len = this.length;
+		if (typeof fn === "function" && len > 0) {
+			for (var i = 0; i < len; i++) {
+				if(this.hasOwnProperty(i)){
+					fn.call(this,this[i])
+				}
+			}
+		}
+
+	}
+
+	arr.each(function(item){
+		alert(item)  //1,2,3,4
+	})
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>
