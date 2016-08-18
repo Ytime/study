@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	var log = console.log;
+
+	/*
+	*js模拟继承主要由原型链实现。
+	*让原型对象等于一个对象实例，即原型对象内部属性又指向另一个原型对象，即构成原型链。对象的属性和方法，都是在原型链中从下往上搜索，一直搜索到顶层原型。
+	*
+	*/
+	
+	// //父类
+	function PointX(x){
+		this.x = x || 0;
+	}
+	//定义PointX方法
+	PointX.prototype.getX = function(){
+			return this.x;
+	};
+
+
+	//子类
+	function PointY(y){
+		this.y = y || 0;
+	}
+
+	//继承父类
+	PointY.prototype = new PointX();
+
+	//子类方法，不能使用字面量定义
+	PointY.prototype.getY = function(){
+			return this.y;
+	};
+
+	var pointA = new PointY(2);
+
+	log(pointA.getX());    //0 
+
+	log(PointY.prototype.constructor)  //function PointX
+
+
+
+	//原型链中出现的构造函数用instance判断均能返回true
+	log(pointA instanceof PointX);  //true
+	log(pointA instanceof PointY);  //true
+	log(pointA instanceof Object);  //true
+
+	
+
+
+	// /*
+	// *原型链继承问题：引用类型属性共享。此外实例化子类是不能向父类构造函数传递参数
+	// */
+	function Super(){
+		this.colors = ['red','yellow'];
+	}
+	function Sub(){
+
+	}
+	Sub.prototype = new Super();
+	var instance1 = new Sub();
+	instance1.colors.push('black');
+	log(instance1.colors);    //["red", "yellow", "black"]
+	var instance2 = new Sub();
+	log(instance2.colors)    //["red", "yellow", "black"]   colors属性共享
+
+	
+
+	//------------------------------------------------------------------------------------
+
+	/*
+	*常用的继承方式
+	1.借用构造函数继承（类继承）
+	2.组合继承
+	3.寄生组合继承
+	*/
+
+
+	/*
+	**1.借用构造函数继承（类继承）
+	*通过call或apply方法实现传参数，且实例的属性独立不共享，但是只能继承自父类构造函数，继承的函数需要在构造函数中定义，不能实现共享
+	*/
+
+	//父类
+	function PointX(x){
+		this.x = x || 0;
+	}
+	//定义PointX方法
+	PointX.prototype.getX = function(){
+			return this.x;
+	};
+
+	//定义子类
+	function PointXY(x,y){
+		//继承，并传递参数
+		PointX.call(this,x);
+		this.y = y || 0;   //子类属性
+	}
+
+
+	var pointA = new PointXY(1,2);
+	log(pointA.x);			//1    继承x属性
+	log(pointA.getX());     //error  不能继承父类prototype方法属性，只能继承构造函数属性方法
+
+
+	//------------------------------------------------------------------------------------
+	/*
+	**2.组合继承
+	*借用构造函数继承父类属性的基础上，使用prototype属性继承父类prototype方法
+	*/
+
+	//父类定义属性
+	function PointX(x){
+		this.x = x || 0;
+	}
+	//定义PointX方法
+	PointX.prototype.getX = function(){
+			return this.x;
+	};
+
+	//定义子类
+	function PointXY(x,y){
+		//继承父类属性，并传递参数
+		PointX.call(this,x);
+		this.y = y || 0;   //子类属性
+	}
+
+	//使用prototype继承方法
+	PointXY.prototype = new PointX();
+	var pointA = new PointXY(1,2);
+	log(pointA.x);			//1    继承x属性
+	log(pointA.getX());     //1    
+
+	//------------------------------------------------------------------------------------
+	/*
+	**3.寄生组合继承
+	*前面的组合继承事实上还有一定缺陷，即需要调用两次父类构造函数，且对父类属性重写
+	*/
+
+	var invokeIndex = 0;
+	//父类定义属性
+	function PointX(x){
+		this.x = x || 0;
+		invokeIndex++;
+	}
+	//定义PointX方法
+	PointX.prototype.getX = function(){
+			return this.x;
+	};
+
+	//定义子类
+	function PointXY(x,y){
+		PointX.call(this,x);     //第二次调用PointX
+		this.y = y || 0;   
+	}
+
+	PointXY.prototype = new PointX();  //第一次调用PointX
+	PointXY.prototype.constructor = PointXY;
+
+	//实例化
+	// var pointA = new PointXY(1,2);
+	// log(invokeIndex);  //2  调用两次
+
+
+	//为避免两次调用构造函数，为子类指定原型对象时，不调用构造函数
+	function inheritPrototype(subType,superType){
+		var protoObj = object(superType.prototype);
+		protoObj.constructor = subType;
+		subType.prototype = protoObj;
+	}
+	//以传入的对象为原型，并创建实例
+	function object(o){
+		function F(){}
+		F.prototype = o;
+		return new F();
+	}
+
+	invokeIndex = 0;
+
+	//定义子类2
+	function PointXY2(x,y){
+		PointX.call(this,x);     
+		this.y = y || 0;   
+	}
+	inheritPrototype(PointXY2,PointX);
+	var pointB = new PointXY2(3,4);
+	log(invokeIndex);  //1  调用1次父类构造函数，更高效率
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>
