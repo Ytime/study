@@ -81,7 +81,7 @@
 	//------------------------------------------------------------------------------------
 
 	/*
-	*常用的继承方式
+	*其他常用的继承方式
 	1.借用构造函数继承（类继承）
 	2.组合继承
 	3.寄生组合继承
@@ -157,7 +157,7 @@
 	}
 	//定义PointX方法
 	PointX.prototype.getX = function(){
-			return this.x;
+		return this.x;
 	};
 
 	//定义子类
@@ -170,33 +170,54 @@
 	PointXY.prototype.constructor = PointXY;
 
 	//实例化
-	// var pointA = new PointXY(1,2);
-	// log(invokeIndex);  //2  调用两次
+	var pointA = new PointXY(1,2);
+	//log(invokeIndex);  //2  调用两次
+	//log(pointA.getX())
 
-
-	//为避免两次调用构造函数，为子类指定原型对象时，不调用构造函数
-	function inheritPrototype(subType,superType){
-		var protoObj = object(superType.prototype);
-		protoObj.constructor = subType;
-		subType.prototype = protoObj;
-	}
-	//以传入的对象为原型，并创建实例
-	function object(o){
-		function F(){}
-		F.prototype = o;
-		return new F();
-	}
-
-	invokeIndex = 0;
 
 	//定义子类2
 	function PointXY2(x,y){
-		PointX.call(this,x);     
+		
+		PointXY2.prototype.superClass.constructor.call(this,x);       //通过自身的引用继承父类模板    
 		this.y = y || 0;   
 	}
+
+
+	//为避免两次调用构造函数，为子类指定原型对象时，不调用构造函数。使用一个临时对象复制父类原型对象
+	function inheritPrototype(subType,superType){
+		var f = new Function();						 //为什么创建临时对象？用临时对象中转，避免修改子类原型时影响到父类原型
+		f.prototype = superType.prototype;
+		//var tempObj = new f();               
+		// tempObj.prototype = superType.prototype;
+		
+		subType.prototype = new f();				 //原型继承
+		subType.prototype.superClass = superType.prototype     //保存对父类的引用，方便解除耦合，同时能在与父类属性方法重名冲突时实现重载
+		subType.prototype.constructor = subType;     //修正构造器
+
+
+	}
+
+
+	invokeIndex = 0;
+
+	
+
+	//寄生继承父类原型
 	inheritPrototype(PointXY2,PointX);
+
+	//定义PointXY2新方法
+	PointXY2.prototype.getX = function(){
+			log('x is : '+this.x);
+	};
+
+	
+
 	var pointB = new PointXY2(3,4);
-	log(invokeIndex);  //1  调用1次父类构造函数，更高效率
+
+	log(invokeIndex);                 //1  调用1次父类构造函数，更高效率
+	pointB.getX();                    //x is : 3    
+	log(pointA.getX());	              //1 修改子类原型不影响父类
+	log(pointB.superClass.getX.call(pointB))     //3 通过引用调用原来的getX方法
 
 
 
