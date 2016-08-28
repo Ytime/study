@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<span>Can you see me?</span>
+		</p>
+	</div>
+	<script>
+
+	var log = console.log;
+
+	/*
+	*设计模式
+	*
+	*
+	*/
+	
+
+
+	/*
+	*1.单体模式
+	*单体是用一个命名空间包含自己的所有代码的全局对象，最基本最有用的模式。用来划分命名空间，减少网页中全局变量的数量
+	*
+	*/
+
+	//1.1简单单体，对象字面量
+	var singleTon1 = {
+		name : 'hsj',
+		fn : function () {
+			log('Do something');
+		}
+	}
+	//或者
+	var singleTon2 = function(){
+		this.name = 'hsj';
+		//code
+	}
+
+
+	//1.2闭包单体 上面的方法不能定义私有变量。使用闭包创建单体，可以拥有私有变量
+	var ClosureSingle = (function(){
+		//添加私有成员
+		var privateName = 'hsj';
+		var getName = function(){
+			return privateName;
+		}
+
+		//外部访问接口
+		return {
+
+			name : 'ky',
+			getPrivateName : function(){
+				return getName();
+			},
+			setPrivateName : function(sName){
+				privateName = sName;
+			},
+		};
+
+	})();
+	log(ClosureSingle.name);               //ky 
+	log(ClosureSingle.privateName);        //undefined 不能访问私有变量 
+	log(ClosureSingle.getPrivateName());   //hsj  通过提供的方法访问私有变量privateName
+	ClosureSingle.setPrivateName('Feng')   //更改
+	log(ClosureSingle.getPrivateName());   //Feng 
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+<body>
+
+</html>
