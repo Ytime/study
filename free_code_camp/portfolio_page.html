@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Page</title>
+
+    <!-- Bootstrap -->
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/portfolio.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<!-- header -->
+    <header class="container-fluid navbar navbar-default navbar-fixed-top" role="navigation">
+    	<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Jian</a>
+    	</div>
+		<!-- nav -->
+    	<nav id="navbar-collapse" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right" role="">
+				<li><a href="#home">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#project">Project</a></li>
+				<li><a href="#contact">Concact</a></li>
+			</ul>
+    	</nav>
+    </header>
+
+	<!-- background -->
+    <section id="home">
+    	<!-- <img src="img/rail_bg.jpg" alt="" class="auto"> -->
+    	<div class="mask">
+			<h1>Yo!</h1>
+			<p>踏入前端的路…努力，奋斗</p>
+    	</div>
+
+    </section>
+    <section id="about" class="about">
+    	<h2 class="text-center">About</h2>
+    	<div class="intr-txt">
+			<p>Hi！我是坚，一名学生。喜欢前端，并打算从事于Web前端开发工作。以前出于兴趣，或多或少有接触过前端相关的东西。今天从FCC出发，开始完整学习Web。希望找到志同道合的朋友一起交流学习。</p>
+		</div>
+		<div class="avatar">
+			<img class="text-center" src="img/avatar.jpg" alt="avatar">
+		</div>
+    </section>
+
+    <section id="project" class="project container-fluid">
+		<h2 class="text-center">Project</h2>
+		<ul class="row">
+			<li class="col-md-4 col-sm-6">
+				<div class="pr">
+					<img src="img/portfolio_thumb.png" alt="portfolio_thumb">
+					<div class="detail">
+						<h3 class="text-center"><a href="##">Portfolio</a></h3>
+						<p>FCC任务-个人简介</p>
+					</div>
+				</div>
+			</li>
+
+			<li class="col-md-4 col-sm-6">
+				<div class="pr">
+					<img src="img/portfolio_thumb.png" alt="portfolio_thumb">
+					<div class="detail">
+						<h3 class="text-center"><a href="##">Portfolio</a></h3>
+						<p>FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介FCC任务-个人简介</p>
+					</div>
+				</div>
+			</li>
+
+			<li class="col-md-4 col-sm-6">
+				<div class="pr">
+					<img src="img/portfolio_thumb.png" alt="portfolio_thumb">
+					<div class="detail">
+						<h3 class="text-center"><a href="##">Portfolio</a></h3>
+						<p>FCC任务-个人简介</p>
+					</div>
+				</div>
+			</li>
+
+			<li class="col-md-4 col-sm-6">
+				<div class="pr">
+					<img src="img/portfolio_thumb.png" alt="portfolio_thumb">
+					<div class="detail">
+						<h3 class="text-center"><a href="##">Portfolio</a></h3>
+						<p>FCC任务-个人简介</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+
+    </section>
+  <!--   <section>
+    	<h2 class="text-center">Contact me</h2>
+    	
+    </section> -->
+
+    <footer id="contact" class="contact text-center">
+		<h2 class="">Contact me</h2>
+		<ul>
+			<li><a href="https://github.com/Ytime" target="_blank"><i class="fa fa-github fa-3x" aria-hidden="true"></i></a>
+			</li>
+			<li><a href="####"><i class="fa fa-qq fa-3x" aria-hidden="true"></i></a>
+				<div class="popup">
+					<img src="img/qqqrcode.jpg" alt="qq qrcode">
+				</div>
+			</li>
+			<li><a href="####"><i class="fa fa-wechat fa-3x" aria-hidden="true"></i></a>
+				<div class="popup">
+					<img src="img/weqrcode.png" alt="wechat qrcode">
+				</div>
+			</li>
+		</ul>
+		<p>Create by @风稻人</p>
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+	    jQuery(document).ready(function ($) {
+	    	$('#navbar-collapse a').click(function(){
+	    		var reg = /^#(\w+)/;
+		        $('html, body').animate({ scrollTop: $('#'+$(this).attr('href').match(reg)[1]).offset().top - $('#home').offset().top}, 500);
+		        return false;
+	    	})
+
+	    });
+    </script>
+  </body>
+</html>

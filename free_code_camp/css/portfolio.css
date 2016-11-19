@@ -1,0 +1,168 @@
+/*重置css*/
+ul{margin: 0;padding: 0}
+li{list-style: none;}
+
+.text-center{text-align: center;}
+.pr{position: relative;}
+
+
+body{font-family: Muli,'Helvetica Neue','Hiragino Sans GB','WenQuanYi Micro Hei','Microsoft Yahei',sans-serif;}
+/*header*/
+.navbar{ margin: 0; }
+.navbar-nav > li {
+    padding-right: 30px;
+}
+/*home*/
+#home{
+	position: relative;
+	min-height: 482px;
+	margin-top: 50px;
+	padding: 60px 10%;
+	background: url('../img/rail_bg.jpg') no-repeat center;
+	color: #fff;
+	text-align: center;
+}
+#home h1{
+	font-family: 'Molle', cursive;
+}
+#home p{
+	font-size: 21px;
+    font-weight: 200;
+}
+img.auto{
+	width: 100%;
+	height: auto;
+}
+.mask{
+	position: absolute;
+	width: 80%;
+	padding: 20px 0;
+	
+	margin-top: -75px;
+	top: 50%;
+	/*margin-top: -79px;*/
+	
+	/*top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;*/
+	background-color: rgba(34, 34, 34, 0.7);
+}
+
+/*about*/
+.about{
+	padding: 0 10%;
+	overflow: hidden;
+}
+.intr-txt,.avatar{
+	display: table-cell;      /*文字与图片列同高*/
+	padding: 0 15px;
+	vertical-align: middle;
+}
+.intr-txt{
+	width: 66.6666%;
+	font-size: 21px;
+}
+.avatar{
+	width: 33.3333%;
+}
+.about img{
+	width: 300px;
+	border-radius: 50%;
+}
+/* 小屏幕（平板，大于等于 768px） */
+@media (max-width: 640px) { 
+	.intr-txt,.avatar{
+		display: block;      /*层叠*/
+		width: 100%;
+		padding: 0 15px;
+	}
+	.avatar{
+		text-align: center;
+	}
+
+}
+
+/*project*/
+.project img{
+	width: 100%;
+	height: auto;
+}
+.detail{
+	position: absolute;
+	padding: 0 15px;
+	width: 100%;
+	bottom: 0;
+	background-color: rgba(255,255,255,.75);
+}
+.detail:hover{
+	background-color: rgba(255,255,255,0.88);
+	-webkit-transition: background-color .35s ease-in;
+    -o-transition: background-color .35s ease-in;
+    transition: background-color .35s ease-in;
+}
+/*.detail p{
+	visibility: hidden;
+	height: 0;
+}
+.detail:hover p{
+	visibility: visible;
+	height: auto;
+	-webkit-transition: height .45s ease-in-out;
+    -o-transition: height .45s ease-in-out;
+    transition: height .45s ease-in-out;
+}*/
+.project li{
+	margin-bottom: 20px;
+}
+
+.contact{
+	padding: 1px 0;   /*防止外边距重叠*/
+	box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+	/*background-color: #722872;
+	padding-bottom: 20px;*/
+	background: #202020;
+    /*padding: 35px 0 0;*/
+    color: #959595;
+
+}
+.contact li{
+	position: relative;
+	display: inline-block;
+	padding: 30px;
+}
+
+/*弹出二维码*/
+/*图片是外层li盒子大小两倍*/
+.popup img{
+	width: 202px;
+	height: 202px;
+}
+.contact .popup{
+	/*display: none;*/
+	visibility: hidden;
+	position: absolute;
+	left: -50%;
+	bottom: 80%;
+	-webkit-transition: bottom .45s ease-in-out;
+    -o-transition: bottom .45s ease-in-out;
+    transition: bottom .45s ease-in-out;
+}
+
+/*弹出层三角形*/
+.popup:after{
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 100%;
+	margin-left: -12px;
+	width: 0;
+	height: 0;
+	border: 12px solid transparent;
+	border-top-color: #fff;
+}
+.contact li:hover .popup{
+	/*display: block;*/
+	visibility: visible;
+	bottom: 100%;
+}
