@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹幕墙</title>
+	<style type="text/css">
+/*		body{
+			margin: 0;
+			padding: 0;
+		}*/
+		input{
+			width: 20%;
+			min-width: 300px;
+			height: 30px;
+			padding-left: 4px;
+		}
+		button{
+		    text-align: center;
+		    padding: 0;
+		    height: 35px;
+		    line-height: 35px;
+		    font-size: 14px;
+		    width: 159px;
+		    background-color: white;
+		    cursor: pointer;
+		}
+		/*屏幕*/
+		.screen{
+			
+			width: 90%;
+			padding: 0 15px;
+			margin: 30px auto;
+			height: 500px;
+			border: 1px solid #eee;
+		}
+		.show{
+			position: relative;
+			overflow: hidden;
+			height: 500px;
+
+			
+		}
+		.dm{
+			position: absolute;
+			margin: 1px;
+			right: 0;
+		}
+		/*控制*/
+		.ctrl{
+			/*width: 90%;
+			width: 500px;*/
+			margin: 20px auto;
+			text-align: center;
+		}
+		.ctrl div{
+			padding: 10px;
+		}
+		.launch{
+			border: 1px solid #abcdef;
+			color: #ff8133;
+		}
+		.launch:hover{
+			border: 1px solid #69c;
+			color: #ff5d33;
+		}
+		.clear{
+			border: 1px solid #efefef;
+			color: #c3c3c3;
+
+		}
+		.clear:hover{
+			border: 1px solid #e3e3e3;
+			color: #666;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="screen">
+		<div class="show"></div>
+	</div>
+	<div class="ctrl">
+		<input type="text" placeholder="说点什么？">
+		<div>
+			<button class="launch" type="button">发射</button>
+			<button class="clear" type="button">清屏</button>
+		</div>
+	</div>
+	<script>
+		window.onload = function(){
+
+			var oLauBtn = getClass('launch')[0];
+			var oClearBtn = getClass('clear')[0];
+			var oIpt = document.getElementsByTagName('input')[0];
+			var oShow = getClass('show')[0];
+			var maxTop = oShow.offsetHeight - 20;
+
+			oLauBtn.onclick = launchDM;
+			oClearBtn.onclick = clearScreen;
+
+			document.onkeydown = function(e){
+				var e = e || window.event;
+				if (e.keyCode == 13) {
+					launchDM();
+				}
+			}
+
+
+			// 发射弹幕
+			function launchDM(){
+				var sTxt = oIpt.value;
+				if (sTxt) {
+					var oDM = document.createElement('div');
+					oDM.className = 'dm';
+					oDM.innerHTML = sTxt;
+					oDM.style.color = randColor();
+					oDM.style.top = Math.random()*maxTop + 'px';
+					oShow.appendChild(oDM);
+					oDM.style.left = oDM.offsetLeft + 'px';
+					moveDM(oDM,-oDM.offsetWidth);
+					
+				}
+				oIpt.value = '';
+
+
+			}
+
+			// 清屏
+			function clearScreen(){
+				oShow.innerHTML = '';
+
+			}
+			// 弹幕运动定时器
+			function moveDM(obj,iTar,iSpeed){
+				if (obj.timer) {
+					clearInterval(obj.timer);
+				}
+				obj.timer = setInterval(function(){
+					moveTo(obj,iTar);
+				},iSpeed||5);
+			}
+			// 弹幕运动
+			function moveTo(obj,iTar){
+				iCur = parseInt(getStyle(obj,'left')) - 1;
+				obj.style.left = iCur + 'px';
+				//到达目的销毁弹幕
+				if (iCur <= iTar) {
+					clearInterval(obj.timer);
+					if (obj) {
+						oShow.removeChild(obj);
+					}
+					console.log('destroyed')
+
+				}
+
+			}
+
+			function randColor(){
+				// return '#'+Math.random().toString(16).substr(-6);  IE8有问题
+				return '#'+Math.random().toString(16).substr(2,6);
+			}
+
+			//获取样式
+			function getStyle(obj,attr){
+			   if(obj.currentStyle){
+			   		return obj.currentStyle[attr];//IE
+			   }else{
+			    	return document.defaultView.getComputedStyle(obj,null)[attr];//W3C
+			   }
+			}
+			
+			//获取class节点
+			function getClass(className, idName) {
+			    var doc = document;
+			    if(doc.getElementsByClassName) {
+			        return idName ? doc.getElementById(idName).getElementsByClassName(className) : doc.getElementsByClassName(className);
+			    }
+			    var nodes = null;
+			    if(arguments.length == 1) {
+			        nodes = doc.getElementsByTagName('*');
+			    } else if(arguments.length == 2) {
+			        nodes = doc.getElementById(idName).getElementsByTagName('*');
+			    }
+			    ;
+			    var element = [];
+			    for(var i = 0; i < nodes.length; i++) {
+			        if(nodes[i].className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))) {
+			            element.push(nodes[i]);
+			        }
+			    };
+			    return element;
+
+			}
+
+		}
+
+	</script>
+	
+</body>
+</html>
+<!-- 
+*
+*@风稻人
+* 
+-->
