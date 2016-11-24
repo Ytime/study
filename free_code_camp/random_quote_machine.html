@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Random Quote Machine</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<style type="text/css">
+		/*背景图片*/
+		.fullbg{
+		    position: fixed;
+		    top: 0;
+		    right: 0;
+		    bottom: 0;
+		    left: 0;
+		    z-index: -999;
+		    background: url(img/tumblr_miidckSoFJ1rt0g8wo1_500.gif);
+		    background-size: cover;
+		    /*IE拉伸*/
+		    filter : progid:DXImageTransform.Microsoft.AlphaImageLoader ( sizingMethod='scale' , src='img/tumblr_miidckSoFJ1rt0g8wo1_500.gif') 
+		    background-position: 50% 50%;
+		}
+		/*.fullbg img{
+			width: 100%;
+			height: 100%;
+		}*/
+		/*内容居中*/
+		.container{
+			position: absolute;
+			max-width: 540px;
+    		max-height: 480px;
+    		margin: auto;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			font-size: 24px;
+    		color: #fff;
+		}
+		.quote-box{	
+			font-family: "楷体",Arial,'Microsoft YaHei',sans-serif;
+			padding: 0 12px
+		}
+		.quote-txt{
+			text-align: center;
+			font-weight: 400;
+    		font-size: 36px;
+		}
+		.author{
+			text-align: right;
+		}
+		.author:before{
+			content: "——";
+			margin-right: 0.5em;
+		}
+		.ctrl{
+			border-top: 1px solid hsla(0,0%,100%,.13);
+			padding: 4px 12px;
+			overflow: hidden;   /*清浮动*/
+		}
+		a{
+			display: inline-block;
+			text-decoration: none;
+			/*color: #fff;*/
+		}
+		.share{
+			color: #eee;
+
+		}
+		.share:hover{
+			color: #ace;
+		}
+		/*.share:first-child{
+			margin-left: 0;
+		}*/
+		.new{
+			float: right;
+			padding: 4px 12px;
+			border-color: #529ecc;
+    		background-color: #529ecc;
+    		color: #fff;
+ 
+		}
+		.new:active{
+			border-color: #4295c7;
+		    background-color: #4295c7;
+		    color: hsla(0,0%,100%,.8);
+		}
+		
+	
+	</style>
+</head>
+<body>
+	<div class="fullbg">
+	</div>
+	<!-- <img src="" alt=""> -->
+	<div class="container">
+		<div class="quote-box">
+			<h3 class="quote-txt">TO BE OR NOT TO BE</h3>
+			<p class="author">莎士比亚</p>
+		</div>
+		<div class="ctrl">
+			<a href="####" class="share share-twitter"><i class="fa fa-twitter"></i></a>
+			<!-- <a href="####" class="share share-weChat"><i class="fa fa-wechat"></i></a> -->
+			<a class="new" href="####">下一个</a>
+		</div>
+	</div>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+	  		var url = "http://apis.baidu.com/txapi/dictum/dictum";
+	  		var $text = $('.quote-txt');
+	  		var $author = $('.author');
+
+	  		$('.new').click(function(){
+	  			$.ajax({
+		  			headers: {
+				      "apikey": "b4ed4dd716274b6fcb8da176e16b7524",
+				      Accept: "application/json",
+				      "Content-Type": "application/x-www-form-urlencoded"
+				    },
+		  			url: url,
+		  			
+		  			success: function(response){
+		  				if (response.msg == "success") {
+		  					var obj = response.newslist[0];
+		  					$text.html(obj["content"]);
+		  					$author.html(obj["mrname"]);
+		  				}
+		  			},
+
+		  			error: function(err){
+		  				console.log(err);
+		  				$text.html("似乎出了点错误!");
+		  				$author.html("Jian");
+		  			}
+
+		  		})
+	  		});
+	  		// 分享到twitter
+	  		$(".share-twitter").click(function(){
+	  			var quote = $text.html() + '\n—' + $author.html();
+		  		window.open('https://twitter.com/intent/tweet?&original_referer=https%3A%2F%2Fdev.twitter.com%2Fweb%2Ftweet-button&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=' 
+		  			+ quote);
+	  		})
+
+
+
+
+	  		
+			
+
+		});
+	</script>
+</body>
+</html>
