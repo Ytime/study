@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hamming Distance</title>
+</head>
+<body>
+    <script>
+    var log = console.log;
+
+    /*
+    solution1：直接按位异或，求1的个数
+	*/
+    var answer1 = function(x,y) {
+
+        var str = (x^y).toString(2).match(/1/g);
+        return str === null ? 0 : str.length;
+    
+    };
+    /*
+    solution2：按照10进制转2进制的方法，逐次比较
+	*/
+    var answer2 = function(x,y) {
+
+
+        var count = 0;
+        while( x > 0 || y > 0 ){
+            if(x%2 !== y%2) count++;
+            x = parseInt(x / 2);
+            y = parseInt(y / 2);
+            // log(x + ' ' + y + ' ' + count)
+        }
+        return count;
+
+
+        
+    };
+
+
+
+
+    var testCase = 'tmmzuxt';
+    console.time('testCase');
+
+    log(answer2(1,4));
+    console.timeEnd('testCase');
+
+
+
+
+    </script>
+</body>
+</html>

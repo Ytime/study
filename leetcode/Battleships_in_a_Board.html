@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Battleships in a Board</title>
+</head>
+<body>
+    <script>
+    var log = console.log;
+
+    /*
+    自己的方法
+    读懂题目，题目说明'X'必有'.'分开，且战舰只能是1xN或者Nx1的形式。每一部分战舰有个战舰头，战舰头特征是左上两个方向是X或者边界
+    在二维数组中遍历找出战舰头的个数即可
+    */
+    var answer1 = function(board) {
+        
+        var num = 0, rowLen = board.length,
+            colLen = board[0].length;
+        //第i行
+        for (var i = 0; i < rowLen; i++) {
+            //第j个元素
+            for (var j = 0; j < colLen; j++) {
+                if (board[i][j] == 'X') {
+                    if (((j === 0) || (board[i][j - 1] == '.')) && ((i === 0) || board[i-1][j] == '.')) {
+                        ++num;
+                    }
+                }
+            }
+        }
+        return num;
+        
+    };
+
+    /*
+    方法2使用DFS（深度优先搜索），即访问到一个x,按上下左右把与X相邻的所有战舰找出来，并标记已经访问过
+    速度在本题目中慢，且与题目要求不使用额外空间不符合，为了练习
+    */
+    var answer2 = function(board) {
+
+        var num = 0, rowLen = board.length,
+            colLen = board[0].length,
+            visited = new Array(rowLen);
+
+        //创建记录访问结果的二维数组
+        for (var i = 0; i < rowLen; i++) {
+            visited[i] = new Array(colLen);
+        }
+        function dfs(i,j){
+            
+            if (i < 0 || i >= rowLen || j < 0 || j >= colLen || visited[i][j] || board[i][j] === '.') {
+                return;
+            }
+            visited[i][j] = true;
+            dfs(i - 1, j);
+            dfs(i + 1, j);
+            dfs(i, j - 1);
+            dfs(i, j + 1);
+
+        }
+
+        //第i行
+        for (var i = 0; i < rowLen; i++) {
+            //第j个元素
+            for (var j = 0; j < colLen; j++) {
+                if (board[i][j] == 'X' && !visited[i][j]) {
+                    dfs(i,j);
+                    num++;
+                }
+            }
+        }
+        return num;
+        
+    };
+
+
+
+
+    var testCase = 'tmmzuxt';
+    console.time('testCase');
+
+    log(answer1(["X..X","...X","...X"]));
+    console.timeEnd('testCase');
+
+
+
+
+    </script>
+</body>
+</html>

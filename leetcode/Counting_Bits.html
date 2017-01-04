@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counting Bits</title>
+</head>
+<body>
+    <script>
+    var log = console.log;
+
+    /*
+    最简单的方法，把数字转化为二进制，数1的个数,果然很慢
+    */
+    var answer1 = function(num) {
+        var res = new Array(num + 1) , match;
+        res[0] = 0;
+        for (var i = 1; i <= num; i++) {
+            match = i.toString(2).match(/1/g);
+            res[i] = match === null ? 0 : match.length;
+        }
+        return res;
+    };
+
+    /*
+    方法2，
+    观察二进制变动
+    0   00
+    1   01
+    2   10
+    3   11
+    4  100
+    在2^n时，只有1个1，即产生一个进位，后面再重复前面的2^n项。如4为100,4到7除了进位有个1，其余两位分别是0-3的二进制数。
+    可以递归求解
+    */
+    var answer2 = function(num) {
+        if (num <= 1) {
+            return [0,1].slice(0,num + 1);
+        }
+
+        var index = parseInt(Math.log(num)/Math.log(2)),
+            temp = Math.pow(2,index);
+
+        var pre = answer2(temp - 1);
+        if (num - temp >= 0) {
+            return pre.concat(pre.slice(0,num - temp + 1).map(function(item){
+                return ++item;
+            }));
+        }
+        return pre;
+        
+    };
+    //方法2的非递归,提高速度,94%
+    var answer3 = function(num) {
+        var res = [0,1,1,2,1,2,2,3];
+        if (num < res.length) {
+            return res.slice(0,num + 1);
+        }
+
+        var index = res.length, temp = 0;
+
+        for (var i = index; i <= num; i++) {
+            temp++;
+            res.push(res[i - index] + 1)
+            if (index == temp) {
+                index += temp;
+                temp = 0;
+            }
+        }
+        return res;
+        
+    };
+
+    //其他方法，难想到  recurrence for this problem is f[i] = f[i / 2] + i % 2. 99.2%
+    var answer3 = function(num) {
+        if (num === 0) {return [0];}
+
+        var res = new Array(num + 1);
+        res[0] = 0;
+        for (var i = 1; i <= num; i++) {
+            res[i] = res[i>>1] + (i&1);
+        }
+        return res;
+        
+    };
+
+    
+
+    var testCase = 'tmmzuxt';
+    console.time('testCase');
+
+    log(answer3(10));
+    console.timeEnd('testCase');
+
+
+
+
+    </script>
+</body>
+</html>
