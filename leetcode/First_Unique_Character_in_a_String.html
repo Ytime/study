@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>First Unique Character in a String</title>
+</head>
+<body>
+	<script>
+	var log = console.log;
+	/*
+    最简单的方法，空间换时间，用字典记录已出现的字符
+    */
+	var answer1 = function(s) {
+	    
+	    var temp = {},key;
+	    
+	    for(var i =  0 ,len = s.length ; i < len ; i++){
+	    	key = s[i];
+	    	
+	        if(temp[key] === undefined){
+	        	temp[key] = 0;
+	        }else{
+	        	temp[key] = 1;
+	        }
+
+	    }
+
+	    for(i = 0 ; i < len ; i++){
+	    	if ( temp[s[i]] === 0) {
+	    		return i;
+	    	}
+	    }
+	    return -1;
+	};
+
+
+	var testCase = 'loveleetcode';
+	console.time('testCase');
+	console.log(answer1(testCase));
+	console.timeEnd('testCase');
+
+	</script>
+</body>
+</html>
