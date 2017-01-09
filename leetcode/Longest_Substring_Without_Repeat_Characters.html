@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Longest Substring Without Repeating Characters</title>
+</head>
+<body>
+	<script>
+	var log = console.log;
+
+
+	/*
+    用动态规划分解问题
+    用一个字典对象lookup记录已经出现的字符，一个变量j保存最近的重复字符的索引，还有一个变量max保存解
+    每次读取一个新字符问题的解分解为
+    已知前n个长度的解，读取第n+1个字符s，如果新字符s已经出现了，解不变，但是如果j<=上一个s，新的最近重复索引应该更新为上一个s的下一个
+    若没有出现在字典中，取前n个字符的子问题最优解和当前字符到j中最大的
+    */
+	var answer = function(s) {
+		var lookup = {},      
+			max = 0,
+			// strArr = [],
+			str = '';
+
+		for (var i = 0 , j = 0; i < s.length; i++) {
+			str = s[i];
+			//新字符在字典中已经出现过，更新j为上一次最近重复字符的索引
+			if(str in lookup && j <= lookup[str]){
+				j = lookup[str] + 1;
+			}else{
+				//取上一个最长字符串和最近两个重复字符间最大的
+				max = Math.max(max,i - j + 1);
+			}
+			
+			//更新字典的索引
+			lookup[str] = i;
+			
+
+		}
+		return max;
+	    
+	};
+
+
+
+
+	var testCase = 'tmmzuxt';
+	console.time('testCase');
+
+	log(answer(testCase));
+	console.timeEnd('testCase');
+
+
+
+
+	</script>
+</body>
+</html>
