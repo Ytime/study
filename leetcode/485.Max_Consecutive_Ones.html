@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>485. Max Consecutive Ones</title>
+</head>
+<body>
+    <script>
+    var log = console.log;
+
+    /*
+    很简单的一道题目，遍历数组，遇到1计数器计数即可，0可以看作是间断点，每逢断点更新max并且重置计数器。
+    考虑最后一个数为1的情况，给原数组最后加上一个0。
+    或者在for遍历中优先判断原数组的元素是否为0,遍历后再返回count和max中的最大值
+    */
+    var answer1 = function(nums) {
+        nums.push(0);
+        var max = 0,count = 0;
+        for (var i = 0, len = nums.length; i < len; i++) {
+            if (nums[i] === 1) { 
+                count++;
+            }else{
+                if (max < count) { max = count;}
+                count = 0;
+            }
+        }
+        return max;
+        
+        
+    };
+
+
+
+    console.time('testCase');
+
+    log(answer1([1,1,0,1,1,1]));
+
+    console.timeEnd('testCase');
+
+
+
+
+    </script>
+</body>
+</html>
